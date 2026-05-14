@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HoneyBox Dashboard</title>
+
+    <meta http-equiv="refresh" content="5">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        th {
+            background: #222;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .high { color: red; font-weight: bold; }
+        .medium { color: orange; font-weight: bold; }
+        .low { color: darkorange; font-weight: bold; }
+        .normal { color: green; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+<h1>HoneyBox Attack Dashboard</h1>
+
+<table>
+    <tr>
+        <th>Time</th>
+        <th>IP</th>
+        <th>Port</th>
+        <th>Severity</th>
+        <th>Additional Info</th>
+    </tr>
+
+    {% for row in data %}
+
+    {% set sev = row[3] or "NORMAL" %}
+    {% set info = row[4] or "0 attacks | unknown" %}
+
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+
+        {% if "HIGH" in sev %}
+            <td class="high">{{ sev }}</td>
+        {% elif "MEDIUM" in sev %}
+            <td class="medium">{{ sev }}</td>
+        {% elif "LOW" in sev %}
+            <td class="low">{{ sev }}</td>
+        {% else %}
+            <td class="normal">{{ sev }}</td>
+        {% endif %}
+
+        <td>{{ info }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
